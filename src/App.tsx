@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -6,48 +6,86 @@ function App() {
   const [isRunning, setRunning] = useState(false);
   const [isWork, setIsWork] = useState(false);
 
-  const [timer, setTimer] = useState(0);
-
   const [workDurationInput, setWorkDurationInput] = useState(25);
-  const [workDuration, setWorkDuration] = useState(2);
+  const [workDuration, setWorkDuration] = useState(25 * 60);
 
   const [breakDuration, setBreakDuration] = useState(300);
+  const [breakDurationInput, setBreakDurationInput] = useState(5);
 
   const [timeLeft, setTimeLeft] = useState(workDuration);
 
 
+    const inputRef = useRef();
+
+    const focusInput = () => {
+      inputRef.current.focus();
+    }
+
+  
+  const durationHandler = () => {
+
+    if(isRunning){
+      alert("Не играйте с кнопкой!!");
+      return;
+    }
+
+    setWorkDuration(workDurationInput * 60);
+    setBreakDuration(breakDurationInput * 60);
+    setTimeLeft(workDurationInput * 60);
+    setIsWork(true);
+
+  }
+
+
 
   const runningHandler = () => {
+    if(timeLeft === 0){
+      alert("Добавьте время!");
+      return;
+    }
+
     setRunning(!isRunning);
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+  const resetHandler = () => {
+    setTimeLeft(workDuration);
+    setRunning(false);
+    setIsWork(true);
+  }
 
-      if(isRunning === true){
-        setTimeLeft(prev => prev - 1);
-    }
-      }, 1000);
+
+  useEffect(() => {
+
+    if (!isRunning) return;
+    
+    const interval = setInterval(() => {
+      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
 
       return () => clearInterval(interval);
-
-    }, [isRunning, timeLeft, isWork]);
+    }, [isRunning]);
     
 
 
   useEffect(() => {
 
-    if(timeLeft === 0){
+    if(timeLeft < 0){
+      alert("Напиши корректное время!!");
+      setTimeLeft(0);
+      return;
+    }
+
+    if(timeLeft === 0 && isRunning){
       if(isWork){
         setIsWork(false);
         setTimeLeft(breakDuration);
       } else {
         setIsWork(true);
-        setTimeLeft(workDuration)
+        setTimeLeft(workDuration);
       }
     }
 
-  }, [timeLeft]);
+  }, [timeLeft, isRunning, isWork, workDuration, breakDuration]);
 
 
     const minutes = Math.floor(timeLeft / 60);
@@ -59,12 +97,14 @@ function App() {
     <div className='container'>
       <div className="timer-div">
 
-        <input type="number" />
-        <input type="number" />
+        <input ref={inputRef} type="number" placeholder='Your work time' onChange={(e) => setWorkDurationInput(e.target.value)}/>
+        <input type="number" placeholder='Your break time' onChange={(e) => setBreakDurationInput(e.target.value)}/>
 
-        <button>Save</button>
+        <button onClick={durationHandler}>Save</button>
+        <button onClick={focusInput}>Check focusing</button>
+        <button onClick={resetHandler}>Reset</button>
 
-        {/* <span>{isWork ? 'Work time' : 'Break time'}</span> */}
+        <span>{isWork ? 'Work time' : 'Break time'}</span>
 
         <span className='timerNumber'>{minutes < 10 ? '0'+minutes : minutes}:{seconds < 10 ? '0'+seconds : seconds}</span>
         <button onClick={runningHandler}>{isRunning ? 'Pause' : 'Play'}</button>
@@ -73,7 +113,6 @@ function App() {
     </>
   )
 }
-
 
 export default App;
 
