@@ -20,7 +20,6 @@ function App() {
     const focusInput = () => {
       inputRef.current.focus();
     }
-
   
   const durationHandler = () => {
 
@@ -92,9 +91,28 @@ function App() {
     const seconds = timeLeft % 60;
 
 
+
+
   return (
     <>
-    <div className='container'>
+
+    <header className='header'>
+      <div className="container">
+        <div className="header-content">
+          <nav>
+
+            <div className="header-logo">
+              <a href="#">PomodoroTimer</a>
+            </div>
+
+            <a href="#">Statistics</a>
+            <a href="#">About</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div className='content-container'>
       <div className="timer-div">
 
         <input ref={inputRef} type="number" placeholder='Your work time' onChange={(e) => setWorkDurationInput(e.target.value)}/>
@@ -108,6 +126,7 @@ function App() {
 
         <span className='timerNumber'>{minutes < 10 ? '0'+minutes : minutes}:{seconds < 10 ? '0'+seconds : seconds}</span>
         <button onClick={runningHandler}>{isRunning ? 'Pause' : 'Play'}</button>
+
       </div>
     </div>
     </>
