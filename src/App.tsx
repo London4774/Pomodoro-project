@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -15,11 +15,11 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(workDuration);
 
 
-    const inputRef = useRef();
+    // const inputRef = useRef();
 
-    const focusInput = () => {
-      inputRef.current.focus();
-    }
+    // const focusInput = () => {
+    //   inputRef.current.focus();
+    // }
   
   const durationHandler = () => {
 
@@ -95,19 +95,20 @@ function App() {
 
   return (
     <>
-
     <header className='header'>
       <div className="container">
+
         <div className="header-content">
-          <nav>
 
-            <div className="header-logo">
-              <a href="#">PomodoroTimer</a>
-            </div>
+          <nav className='header-nav'>
 
-            <a href="#">Statistics</a>
-            <a href="#">About</a>
+            <a className='header-logo' href="#">PomodoroTimer</a>
+              <a className='nav-items' href="#">Statistics</a>
+              <a className='nav-items' href="#">About</a>
+            <a className='nav-items' href="#">Settings</a>
+
           </nav>
+
         </div>
       </div>
     </header>
@@ -115,12 +116,19 @@ function App() {
     <div className='content-container'>
       <div className="timer-div">
 
-        <input ref={inputRef} type="number" placeholder='Your work time' onChange={(e) => setWorkDurationInput(e.target.value)}/>
-        <input type="number" placeholder='Your break time' onChange={(e) => setBreakDurationInput(e.target.value)}/>
+        <div className="timer-inputs">
 
-        <button onClick={durationHandler}>Save</button>
-        <button onClick={focusInput}>Check focusing</button>
-        <button onClick={resetHandler}>Reset</button>
+          <input type="number" placeholder='Your work time' onChange={(e) => setWorkDurationInput(e.target.value)}/>
+          <input type="number" placeholder='Your break time' onChange={(e) => setBreakDurationInput(e.target.value)}/>
+    
+        </div>
+
+        <div className="timer-buttons">
+
+          <button onClick={durationHandler}>Save</button>
+          <button onClick={resetHandler}>Reset</button>  
+        
+        </div>
 
         <span>{isWork ? 'Work time' : 'Break time'}</span>
 

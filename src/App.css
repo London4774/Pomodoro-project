@@ -15,7 +15,32 @@ body {
 }
 
 .header {
-    padding: 10px 0 20px;
+    padding: 30px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 70px;
+}
+
+.nav-items {
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+}
+
+.header-logo {
+    font-size: 37px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
 }
 
 .content-container {
@@ -28,6 +53,26 @@ body {
 .timer-div {
     display: flex;
     flex-direction: column;
+}
+
+.timer-inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.timer-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+.timer-buttons button {
+    padding: 12px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
 }
 
 .timerNumber {
